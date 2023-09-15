@@ -14,14 +14,19 @@ public class _3_7_ThreeSum2 {
 
         Arrays.sort(arr, 0, n);
 
+
+
         int slKhacNhau = 0, val = arr[0] - 1;
 
         for(int i = 0 ; i < n;i ++) {
             if(arr[i] != val){
+
                 slKhacNhau ++ ;
                 val = arr[i];
             }
         }
+
+
 
         int [] a = new int[slKhacNhau] ;
 
@@ -43,12 +48,13 @@ public class _3_7_ThreeSum2 {
 
         n = id ;
 
+
         int ans = 0;
 
         for(  i = 0;i < n ; i ++){
             if((arr[i] == 0) && (a[i] >= 3)){
 
-                ans += a[i] * (a[i] - 1) * (a[i] - 2) / 6;
+                ans += (a[i] * (a[i] - 1) * (a[i] - 2) / 6);
 
             }
 
@@ -59,7 +65,8 @@ public class _3_7_ThreeSum2 {
                 int sum = arr[i] + arr[j] + arr[k] ;
 
                 if(sum == 0){
-                    ans += a[i] * a[j] * a[k];
+                    ans += (a[i] * a[j] * a[k]);
+                    j ++ ; k -- ;
                 } else {
                     if(sum < 0){
                         j ++ ;
