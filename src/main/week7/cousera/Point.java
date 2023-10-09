@@ -38,7 +38,7 @@ public class Point implements Comparable<Point> {
             return 0.0;
         }
 
-        return 1.0 * (that.y - y) / (that.x - x);
+        return  1.0 * (that.y - y) / (that.x - x);
     }
 
 
@@ -76,6 +76,46 @@ public class Point implements Comparable<Point> {
 
     public static void main(String[] args) {
         /* YOUR CODE HERE */
+        Point [] a = new Point[7] ;
+
+        a[0] = new Point(0, 0);
+        a[1] = new Point(0, 1);
+        a[2] = new Point(0, 2);
+        a[3] = new Point(1, 1);
+        a[4] = new Point(2, 2);
+        a[5] = new Point(0, 3);
+        a[6] = new Point(3, 3);
+
+     FastCollinearPoints aa = new FastCollinearPoints(a);
+        LineSegment [] b = aa.segments();
+        System.out.println(b.length);
+        for(int i = 0;i < b.length;i ++){
+            System.out.println("?? " + b[i].toString());
+       //     b[i].draw();
+        }
+   /*
+        Point [] b = a.clone();
+
+        Arrays.sort(a, b[0].slopeOrder());
+
+        int id1 = 1 , id2  ;
+
+        while (id1 < a.length) {
+            id2 = id1;
+
+            while ((id2 < a.length) && ((b[0].slopeTo(a[id2]) == b[0].slopeTo(a[id1])))) {
+                id2++;
+            }
+
+            System.out.println(id1  +  "  " + (id2 - 1));
+            id1 = id2;
+        }
+
+        for(int i = 0;i < 7;i ++){
+        //    System.out.println(b[i].x + " " + b[i].y);
+            System.out.println(" ?? " + a[i].x + " " + a[i].y + " " + b[0].slopeTo(a[i]));
+        }*/
+
 
     }
 }

@@ -2,7 +2,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class FastCollinearPoints {
-    private ArrayList<LineSegment> arr = new ArrayList<>();
+    private ArrayList<LineSegment> arr ;
+    private ArrayList<String> arrr = new ArrayList<>();
+
     public FastCollinearPoints(Point[] points)  {
         if(points == null){
             throw new IllegalArgumentException();
@@ -19,13 +21,15 @@ public class FastCollinearPoints {
         }
 
         if(points.length >= 4){
+
+            arr = new ArrayList<>();
             Point [] ar = points.clone() ;
             for(int i = 0;i < points.length;i ++){
 
 
                 Arrays.sort(ar, points[i].slopeOrder());
 
-                int id1 = 0 , id2  ;
+                int id1 = 1 , id2  ;
 
                 while (id1 < ar.length){
                     id2 = id1;
@@ -35,14 +39,7 @@ public class FastCollinearPoints {
                     }
 
                     if(id2 - id1 > 2) {
-                        Point mn = new Point(0, 40000) , mx = new Point(0, -40000);
-
-                        if(mn.compareTo(points[i]) > 0){
-                            mn = points[i];
-                        }
-                        if(mx.compareTo(points[i]) < 0) {
-                            mx = points[i];
-                        }
+                        Point mn = points[i] , mx = points[i];
 
                         for(int j = id1;j < id2;j ++){
                             if(mn.compareTo(ar[j]) > 0){
@@ -53,17 +50,27 @@ public class FastCollinearPoints {
                             }
                         }
 
-                        id1 = id2;
-
                         LineSegment ab = new LineSegment(mn, mx);
 
-                        arr.add(ab);
+                          String ss = ab.toString();
+
+                          if(arrr.contains(ss));
+                          else {
+                              arr.add(ab);
+                                arrr.add(ss);
+                          }
+
                     }
+
+                    id1 = id2;
                 }
+
             }
         }
+
     }   // finds all line segments containing 4 or more points
     public           int numberOfSegments() {
+
         return arr.size();
     }       // the number of line segments
     public LineSegment[] segments()     {
