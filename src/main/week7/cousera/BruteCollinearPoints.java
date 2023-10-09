@@ -1,6 +1,5 @@
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
+
 
 public class BruteCollinearPoints {
     private ArrayList<LineSegment> arr = new ArrayList<>();
@@ -82,6 +81,6 @@ public class BruteCollinearPoints {
     }           // the line segments
 
     public static void main(String [] args){
-        System.out.println("halo");
+
     }
 }

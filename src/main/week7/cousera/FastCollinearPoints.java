@@ -19,15 +19,9 @@ public class FastCollinearPoints {
         }
 
         if(points.length >= 4){
-            Point [] ar = new Point[points.length - 1] ;
+            Point [] ar = points.clone() ;
             for(int i = 0;i < points.length;i ++){
-                for(int j = 0, idx = 0;j < points.length;j ++){
-                    if(j == i){
-                        continue;
-                    }
-                    ar[idx] = new Point(points[j].getX(), points[j].getY());
-                    idx ++ ;
-                }
+
 
                 Arrays.sort(ar, points[i].slopeOrder());
 
@@ -36,21 +30,30 @@ public class FastCollinearPoints {
                 while (id1 < ar.length){
                     id2 = id1;
 
-                    while ((id2 < ar.length) && (points[i].slopeTo(ar[id2]) == points[i].slopeTo(ar[id1]))){
+                    while ((id2 < ar.length) && ( (points[i].slopeTo(ar[id2]) == points[i].slopeTo(ar[id1])))){
                         id2 ++ ;
                     }
 
                     if(id2 - id1 > 2) {
-                        Point mn = new Point(points[i].getX(), points[i].getY()) , mx = new Point(points[i].getX(), points[i].getY());
+                        Point mn = new Point(0, 40000) , mx = new Point(0, -40000);
+
+                        if(mn.compareTo(points[i]) > 0){
+                            mn = points[i];
+                        }
+                        if(mx.compareTo(points[i]) < 0) {
+                            mx = points[i];
+                        }
 
                         for(int j = id1;j < id2;j ++){
-                            if(mn.compareTo(points[j]) > 0){
-                                mn = points[j];
+                            if(mn.compareTo(ar[j]) > 0){
+                                mn = ar[j];
                             }
-                            if(mx.compareTo(points[j]) < 0) {
-                                mx = points[j];
+                            if(mx.compareTo(ar[j]) < 0) {
+                                mx = ar[j];
                             }
                         }
+
+                        id1 = id2;
 
                         LineSegment ab = new LineSegment(mn, mx);
 
@@ -74,6 +77,6 @@ public class FastCollinearPoints {
     }           // the line segments
 
     public static void main(String [] args){
-        System.out.println("halo");
+
     }      // the line segments
 }
