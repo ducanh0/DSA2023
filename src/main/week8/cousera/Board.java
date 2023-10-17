@@ -1,15 +1,13 @@
 import java.util.ArrayList;
 
 public class Board {
-    private int [][] arr ;
+    private  int [][] arr ;
 
     private  int n;
-    protected final int truyVet;
-    protected final int tamX, tamY;
-    private static final int baseX = 311, baseY = 331, modX = (int)(1e9 + 7) , modY = (int)(1e9 + 87);
 
-    protected final int finalHash ;
+  //  private static final int baseX = 311, baseY = 331, modX = (int)(1e9 + 7) , modY = (int)(1e9 + 87);
 
+ //   private int finalHash ;
     // create a board from an n-by-n array of tiles,
     // where tiles[row][col] = tile at (row, col)
     public Board(int[][] tiles){
@@ -18,29 +16,23 @@ public class Board {
         }
 
         n = tiles.length;
-        int hash = 0, x = 0 , y = 0, tv = -1;
+       // int hash = 0;
         arr = new int[n][n];
+
         for(int i = 0;i < n;i ++){
-            int pre = 0, hashX = 0;
+         //   int pre = 0, hashX = 0;
             for(int j = 0  ;j < n;j ++){
-                if(tiles[i][j] <= 0){
-                    x = i ; y = j;
 
-                    tv = -tiles[i][j];
-
-                    tiles[i][j] = 0;
-                }
 
                 arr[i][j] = tiles[i][j];
 
-                hashX = (pre * baseX + arr[i][j]) % modX;
-                pre = hashX;
+             //   hashX = (pre * baseX + arr[i][j]) % modX;
+            //    pre = hashX;
             }
-            hash = (hash * baseY + pre) % modY;
+          //  hash = (hash * baseY + pre) % modY;
         }
-        finalHash = hash;
-        tamY = y; tamX = x;
-        truyVet = tv;
+
+     //  finalHash = hash;
     }
 
     // string representation of this board
@@ -131,8 +123,8 @@ public class Board {
     }
 
     // all neighboring boards
-    protected static final int [] hx = {-1, 0, 1, 0};
-    protected static final int [] hy = {0, -1, 0, 1};
+    private static final int [] hx = {-1, 0, 1, 0};
+    private static final int [] hy = {0, -1, 0, 1};
 
     private boolean isInside(int x,int y){
         if((x < 0) || (x >= n) || (y < 0) || (y >= n)){
@@ -150,16 +142,16 @@ public class Board {
                         int x = i + hx[k] , y = j + hy[k];
 
                         if(isInside(x, y)){
-                            arr[i][j] = arr[x][y]; arr[x][y] = - k;
+                            arr[i][j] = arr[x][y]; arr[x][y] = 0;
 
                             Board newBoard = new Board(arr);
 
                             ans.add(newBoard);
 
-                            arr[x][y] = arr[i][j]; arr[i][j] = 0;
+                            arr[x][y] = arr[i][j];
                         }
                     }
-
+                    arr[i][j] = 0;
                     i = n ; j = n;
                 }
             }
@@ -169,43 +161,48 @@ public class Board {
     }
 
     // a board that is obtained by exchanging any pair of tiles
+    // doi cho 2 o khac 0 , dung de tao bang moi de test
     public Board twin(){
-        return null;
-    }
-    protected Board twin(int huong){
-        int x = tamX + hx[huong] , y = tamY + hy[huong];
-
-        arr[tamX][tamY] = arr[x][y] ; arr[x][y] = 0;
-
-        Board ans = new Board(arr);
-
-        arr[x][y] = arr[tamX][tamY]; arr[tamX][tamY] = 0;
-
-        return ans;
-    }
-
-    private static boolean check(int n){
-        if(n < 2){
-            return false;
-        }
-        if(n == 2) {
-            return true;
-        }
-        for(int i = 2;i * i <= n;i ++){
-            if(n % i == 0) {
-                System.out.println(i);
-                return false;
+        int [][] ar = new int [n][n];
+        for(int i = 0;i < n;i ++){
+            for(int j = 0;j < n;j ++){
+                ar[i][j] = arr[i][j];
             }
         }
-        return true;
+        for(int i = 0;i < n;i ++){
+            for(int j = 0;j < n;j ++){
+                if(arr[i][j] != 0){
+                    for(int k = 0;k < 4;k ++){
+                        int x = i + hx[k] , y = j + hy[k];
+
+                        if(isInside(x, y) && (arr[x][y] != 0)){
+                            ar[i][j] = arr[x][y]; ar[x][y] = arr[i][j];
+
+                            k = 4; i = n ; j = n;
+                            break;
+                        }
+                    }
+                    // arr[i][j] = 0;
+                    //  i = n ; j = n;
+                }
+            }
+        }
+        return new Board(ar);
     }
+
+
 
     // unit testing (not graded)
     public static void main(String[] args){
-       /* int [][] arr =  { {8, 1,  3}, {4,  0, 2},{ 7,6, 5} };
+      /*  int [][] arr =  { {8, 1,  3}, {4,  0, 2},{ 7,6, 5} };
         Board kltm = new Board(arr);
 
-        Iterable<Board> it = kltm.neighbors();
+        Board emiu = kltm.twin();
+
+        System.out.println(kltm.toString());
+        System.out.println(emiu.toString());
+
+     /*   Iterable<Board> it = kltm.neighbors();
 
         for(Board i : it){
             System.out.println(i.toString());
